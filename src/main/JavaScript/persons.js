@@ -3,6 +3,7 @@ document.addEventListener('DOMContentLoaded', ()=> {
 });
 class Persons {
 	constructor() {
+		this.persons = new PersonsController();
 		this.setupEvents();
 console.log('Persons.');
 	}
@@ -31,7 +32,12 @@ console.log('Persons.');
 			});
 		});
 		createButton.addEventListener('click', ()=> {
-			console.log('create!');
+			let data = {};
+			let now = DateTimeUtils.toYMDHMS(new Date());
+			let filename = 'persons' + now + '.gz';
+
+			console.log('create!!');
+			this.persons.create(filename, data);
 		});
 	}
 
