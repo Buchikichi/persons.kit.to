@@ -34,7 +34,7 @@ console.log('Persons.');
 		createButton.addEventListener('click', ()=> {
 			let data = {};
 			let now = DateTimeUtils.toYMDHMS(new Date());
-			let filename = 'persons' + now + '.gz';
+			let filename = 'persons' + now + '.csv.gz';
 
 			console.log('create!!');
 			this.persons.create(filename, data);

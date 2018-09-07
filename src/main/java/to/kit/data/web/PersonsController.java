@@ -10,9 +10,11 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.commons.compress.compressors.CompressorException;
 import org.apache.commons.compress.compressors.CompressorOutputStream;
 import org.apache.commons.compress.compressors.CompressorStreamFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import to.kit.data.service.PersonsService;
 import to.kit.data.web.form.PersonsForm;
 
 /**
@@ -22,6 +24,16 @@ import to.kit.data.web.form.PersonsForm;
 @Controller
 @RequestMapping("/persons")
 public class PersonsController {
+	@Autowired
+	private PersonsService personsService;
+
+	/**
+	 * 情報作成.
+	 * @param form フォーム
+	 * @param response HTTP response
+	 * @throws IOException 入出力例外
+	 * @throws CompressorException コンプレッサー例外
+	 */
 	@RequestMapping("/create")
 	public void create(PersonsForm form, HttpServletResponse response) throws IOException, CompressorException {
 		LocalDateTime now = LocalDateTime.now();
@@ -34,9 +46,7 @@ public class PersonsController {
 		try (OutputStream outputStream = response.getOutputStream();
 				CompressorOutputStream out = new CompressorStreamFactory()
 						.createCompressorOutputStream(CompressorStreamFactory.GZIP, outputStream)) {
-			byte[] bytes = "nyanko".getBytes();
-
-			out.write(bytes);
+			this.personsService.createPersons(out);
 		}
 	}
 }
