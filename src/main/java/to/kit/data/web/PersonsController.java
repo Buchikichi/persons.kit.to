@@ -12,8 +12,10 @@ import org.apache.commons.compress.compressors.CompressorOutputStream;
 import org.apache.commons.compress.compressors.CompressorStreamFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import to.kit.data.service.PersonsCriteria;
 import to.kit.data.service.PersonsService;
 import to.kit.data.web.form.PersonsForm;
 
@@ -35,18 +37,19 @@ public class PersonsController {
 	 * @throws CompressorException コンプレッサー例外
 	 */
 	@RequestMapping("/create")
-	public void create(PersonsForm form, HttpServletResponse response) throws IOException, CompressorException {
+	public void create(@RequestBody PersonsForm form, HttpServletResponse response) throws IOException, CompressorException {
 		LocalDateTime now = LocalDateTime.now();
 		String dateTime = now.format(DateTimeFormatter.ofPattern("yyyyMMdd-HHmmss"));
 		String filename = String.format("persons%s.csv.gz", dateTime);
 		String attachment = String.format("attachment;filename=\"%s\"", filename);
+		PersonsCriteria criteria = form.createCriteria();
 
 		response.setHeader("Content-Type", "application/x-compress");
 		response.setHeader("Content-Disposition", attachment);
 		try (OutputStream outputStream = response.getOutputStream();
 				CompressorOutputStream out = new CompressorStreamFactory()
 						.createCompressorOutputStream(CompressorStreamFactory.GZIP, outputStream)) {
-			this.personsService.createPersons(out);
+			this.personsService.createPersons(out, criteria);
 		}
 	}
 }

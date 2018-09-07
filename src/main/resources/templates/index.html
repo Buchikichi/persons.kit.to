@@ -19,6 +19,9 @@
     .ui-sortable-placeholder {
         height: 1em;
     }
+    input.numeric {
+        text-align: right;
+    }
     button.ui-btn.create {
         background-color: palegreen;
     }
@@ -34,31 +37,43 @@
       <h1>persons.kit.to</h1>
     </div>
     <div data-role="content">
-      <fieldset  class="ui-grid-a">
-        <div class="ui-block-a">
-          <ul data-role="listview" data-inset="true"><li data-role="list-divider">Disuse</li></ul>
-          <ul id="disuseList" data-role="listview" data-inset="true" data-split-icon="gear">
-            <li><a href="#">郵便番号</a><a></a></li>
-            <li><a href="#">住所</a><a></a></li>
-            <li><a href="#">住所(かな)</a><a></a></li>
-            <li><a href="#">電話番号</a><a></a></li>
-            <li><a href="#">マイナンバー</a><a></a></li>
-          </ul>
+      <form id="personsForm">
+        <fieldset class="ui-grid-a">
+          <div class="ui-block-a">
+            <ul data-role="listview" data-inset="true"><li data-role="list-divider">Disuse</li></ul>
+            <ul id="disuseList" data-role="listview" data-inset="true" data-split-icon="gear">
+              <li><a href="#">郵便番号</a><a></a></li>
+              <li><a href="#">住所</a><a></a></li>
+              <li><a href="#">住所(かな)</a><a></a></li>
+              <li><a href="#">電話番号</a><a></a></li>
+              <li><a href="#">マイナンバー</a><a></a></li>
+            </ul>
+          </div>
+          <div class="ui-block-b">
+            <ul data-role="listview" data-inset="true"><li data-role="list-divider">Use</li></ul>
+            <ul id="busyList" data-role="listview" data-inset="true" data-split-icon="gear" class="sortableList">
+              <li><a href="#">UUID</a><a></a></li>
+              <li><a href="#">姓</a><a></a></li>
+              <li><a href="#">名</a><a></a></li>
+              <li>
+                  <a href="#">姓(かな)</a><a></a>
+              </li>
+              <li><a href="#">名(かな)</a><a></a></li>
+            </ul>
+          </div>
+        </fieldset>
+        <div class="ui-grid-a">
+          <div class="ui-block-a"></div>
+          <div class="ui-block-b">
+            <div class="ui-field-contain">
+              <label>Number:</label>
+              <input name="numberOfPersons" pattern="[0-9]*" value="10000" min="0" max="100000"
+                  type="number" class="numeric"/>
+            </div>
+          </div>
         </div>
-        <div class="ui-block-b">
-          <ul data-role="listview" data-inset="true"><li data-role="list-divider">Use</li></ul>
-          <ul id="busyList" data-role="listview" data-inset="true" data-split-icon="gear" class="sortableList">
-            <li><a href="#">UUID</a><a></a></li>
-            <li><a href="#">姓</a><a></a></li>
-            <li><a href="#">名</a><a></a></li>
-            <li>
-                <a href="#">姓(かな)</a><a></a>
-            </li>
-            <li><a href="#">名(かな)</a><a></a></li>
-          </ul>
-        </div>
-      </fieldset>
-      <button type="button" class="create">Create</button>
+        <button type="button" class="create">Create</button>
+      </form>
     </div>
     <div id="familyKana" data-role="panel" data-display="overlay" data-position="right">
         姓(かな)設定

@@ -32,7 +32,7 @@ console.log('Persons.');
 			});
 		});
 		createButton.addEventListener('click', ()=> {
-			let data = {};
+			let data = this.createConditions();
 			let now = DateTimeUtils.toYMDHMS(new Date());
 			let filename = 'persons' + now + '.csv.gz';
 
@@ -54,5 +54,13 @@ console.log('Persons.');
 
 	refreshSortableList() {
 		this.setupSortableList();
+	}
+
+	createConditions() {
+		let form = document.getElementById('personsForm');
+		let numberOfPersons = form.querySelector('[name=numberOfPersons]').value;
+		let data = {numberOfPersons: numberOfPersons};
+
+		return data;
 	}
 }

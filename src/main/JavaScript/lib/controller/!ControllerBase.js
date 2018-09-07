@@ -65,7 +65,7 @@ class ControllerBase {
 	create(filename, data = {}) {
 		let body = JSON.stringify(data);
 
-		return AjaxUtils.fetch(this.base + '/create', body).then(response => {
+		return AjaxUtils.postJSON(this.base + '/create', body).then(response => {
 			return response.blob();
 		}).then(blob => {
 console.log('done:');
