@@ -10,7 +10,7 @@ import org.springframework.stereotype.Repository;
 public class FamilyNameRepository extends KanjiNameRepository {
 	private static final String TARGET_DATA = "familyName";
 
-	private FamilyNameRepository() {
+	public FamilyNameRepository() {
 		super(TARGET_DATA);
 	}
 }
