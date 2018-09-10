@@ -8,10 +8,10 @@ import java.io.Reader;
 import java.util.function.Consumer;
 
 /**
- * Name repository.
+ * Text repository.
  * @author H.Sasai
  */
-public abstract class NameRepository {
+public abstract class TextRepository {
 	protected void load(String targetName, Consumer<String> process) {
 		String resourceName = "/data/" + targetName + ".txt";
 

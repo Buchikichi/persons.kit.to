@@ -1,7 +1,6 @@
 package to.kit.data.entity;
 
 public class KenAll {
-	private String id;
 	private String x0401;
 	private String x0402;
 	private String zip5;
@@ -21,12 +20,6 @@ public class KenAll {
 	private String update;
 	private String reason;
 
-	public String getId() {
-		return this.id;
-	}
-	public void setId(String id) {
-		this.id = id;
-	}
 	public String getX0401() {
 		return this.x0401;
 	}

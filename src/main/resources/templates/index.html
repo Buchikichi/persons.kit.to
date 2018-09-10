@@ -42,23 +42,25 @@
           <div class="ui-block-a">
             <ul data-role="listview" data-inset="true"><li data-role="list-divider">Disuse</li></ul>
             <ul id="disuseList" data-role="listview" data-inset="true" data-split-icon="gear">
-              <li><a href="#">郵便番号</a><a></a></li>
-              <li><a href="#">住所</a><a></a></li>
-              <li><a href="#">住所(かな)</a><a></a></li>
-              <li><a href="#">電話番号</a><a></a></li>
-              <li><a href="#">マイナンバー</a><a></a></li>
+              <li><a href="#">都道府県(かな)</a><a href="#kenAll.prefKana"></a></li>
+              <li><a href="#">市区町村(かな)</a><a href="#kenAll.municKana"></a></li>
+              <li><a href="#">町域(かな)</a><a href="#kenAll.cityKana"></a></li>
+              <li><a href="#">マイナンバー</a><a href="#myNumber.text"></a></li>
+              <li><a href="#">電話番号</a><a href="#phone.text" data-depends="kenAll"></a></li>
             </ul>
           </div>
           <div class="ui-block-b">
             <ul data-role="listview" data-inset="true"><li data-role="list-divider">Use</li></ul>
             <ul id="busyList" data-role="listview" data-inset="true" data-split-icon="gear" class="sortableList">
-              <li><a href="#">UUID</a><a></a></li>
-              <li><a href="#">姓</a><a></a></li>
-              <li><a href="#">名</a><a></a></li>
-              <li>
-                  <a href="#">姓(かな)</a><a></a>
-              </li>
-              <li><a href="#">名(かな)</a><a></a></li>
+              <li><a href="#">UUID</a><a href="#UUID.text"></a></li>
+              <li><a href="#">姓</a><a href="#familyName.kanji"></a></li>
+              <li><a href="#">名</a><a href="#firstName.kanji"></a></li>
+              <li><a href="#">姓(かな)</a><a href="#familyName.kana"></a></li>
+              <li><a href="#">名(かな)</a><a href="#firstName.kana"></a></li>
+              <li><a href="#">郵便番号</a><a href="#kenAll.zip7"></a></li>
+              <li><a href="#">都道府県</a><a href="#kenAll.pref"></a></li>
+              <li><a href="#">市区町村</a><a href="#kenAll.munic"></a></li>
+              <li><a href="#">町域</a><a href="#kenAll.city"></a></li>
             </ul>
           </div>
         </fieldset>
@@ -75,8 +77,14 @@
         <button type="button" class="create">Create</button>
       </form>
     </div>
-    <div id="familyKana" data-role="panel" data-display="overlay" data-position="right">
-        姓(かな)設定
+    <div id="uuid.text" data-role="panel" data-display="overlay" data-position="right">
+      <div class="ui-body ui-body-a ui-corner-all">'UUID'設定</div>
+    </div>
+    <div id="familyName.kanji" data-role="panel" data-display="overlay" data-position="right">
+      <div class="ui-body ui-body-a ui-corner-all">'姓'設定</div>
+    </div>
+    <div id="firstName.kanji" data-role="panel" data-display="overlay" data-position="right">
+      <div class="ui-body ui-body-a ui-corner-all">'名'設定</div>
     </div>
   </div>
 </body>

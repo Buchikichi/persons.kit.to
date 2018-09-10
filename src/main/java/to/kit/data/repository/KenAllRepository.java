@@ -10,7 +10,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.UUID;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
 
@@ -19,6 +18,7 @@ import org.springframework.stereotype.Repository;
 import org.springframework.util.StreamUtils;
 
 import to.kit.data.entity.KenAll;
+import to.kit.data.web.form.ChooserOption;
 
 /**
  * KenAll repository.
@@ -26,7 +26,7 @@ import to.kit.data.entity.KenAll;
  */
 @Repository
 @ConfigurationProperties(prefix = "ken-all")
-public class KenAllRepository {
+public class KenAllRepository implements Chooser {
 	private static final String KEN_ALL = "/data/ken_all.zip";
 	private String charsetName;
 	private Map<String, List<KenAll>> map = new HashMap<>();
@@ -34,14 +34,12 @@ public class KenAllRepository {
 
 	private KenAll createRecord(String[] elements) {
 		KenAll rec = new KenAll();
-		String uuid = UUID.randomUUID().toString().replace("-", "");
 		String x0402 = elements[0];
 		String x0401 = x0402.substring(0, 2);
 		String prefKana = elements[3];
 		String municipalityKana = elements[4];
 		String cityKana = elements[5];
 
-		rec.setId(uuid);
 		rec.setX0401(x0401);
 		rec.setX0402(x0402);
 		rec.setZip5(elements[1]);
@@ -72,7 +70,10 @@ public class KenAllRepository {
 					break;
 				}
 				String[] elements = line.replaceAll("\"", "").split(",");
-				if (elements[5].startsWith("ｲｶﾆ")) {
+				String cityKana = elements[5];
+				String city = elements[8];
+				if (cityKana.startsWith("ｲｶﾆ") || cityKana.contains("(") || cityKana.contains(")") || city.contains("（")
+						|| city.contains("）")) {
 					continue;
 				}
 				KenAll rec = createRecord(elements);
@@ -109,13 +110,13 @@ public class KenAllRepository {
 		}
 	}
 
-	public KenAll choose() {
+	@Override
+	public KenAll choose(ChooserOption option) {
 		load();
 		List<KenAll> list = this.map.get("34");
 		int ix = (int)(Math.random() * list.size());
-		KenAll rec = list.get(ix);
 
-		return rec;
+		return list.get(ix);
 	}
 
 	/**

@@ -4,19 +4,21 @@ import java.util.ArrayList;
 import java.util.List;
 
 import to.kit.data.entity.KanjiName;
+import to.kit.data.web.form.ChooserOption;
 
 /**
  * KanjiName repository.
  * @author H.Sasai
  */
-public abstract class KanjiNameRepository extends NameRepository {
+public abstract class KanjiNameRepository extends TextRepository implements Chooser {
 	private List<KanjiName> list = new ArrayList<>();
 
 	/**
 	 * Choose a record.
 	 * @return KanjiName
 	 */
-	public KanjiName choose() {
+	@Override
+	public KanjiName choose(ChooserOption option) {
 		int ix = (int) (Math.random() * Math.random() * this.list.size());
 
 		return this.list.get(ix);

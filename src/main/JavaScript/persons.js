@@ -4,36 +4,34 @@ document.addEventListener('DOMContentLoaded', ()=> {
 class Persons {
 	constructor() {
 		this.persons = new PersonsController();
+		this.disuseList = document.getElementById('disuseList');
+		this.busyList = document.getElementById('busyList');
 		this.setupEvents();
 console.log('Persons.');
 	}
 
 	setupEvents() {
-		let disuseList = document.getElementById('disuseList');
-		let busyList = document.getElementById('busyList');
 		let createButton = document.querySelector('button.create');
 
 		this.setupSortableList();
 		$('#disuseList li, #busyList li').each((ix, li) => {
-			let anchor = li.querySelectorAll('a')[1];
+			let anchor = li.querySelectorAll('a')[0];
+			let gear = li.querySelectorAll('a')[1];
+			let selector = '#' + gear.getAttribute('href');
 
-			$(li).dblclick(()=> {
+			console.log(selector);
+			li.addEventListener('dblclick', ()=> {
 				if (li.parentNode.id == 'busyList') {
-					disuseList.appendChild(li);
+					this.disuseList.appendChild(li);
 				} else {
-					busyList.appendChild(li);
+					this.busyList.appendChild(li);
 				}
 				this.refreshSortableList();
-			});
-			anchor.addEventListener('click', e => {
-				if (li.parentNode.id == 'busyList') {
-					$('#familyKana').panel( "open" );
-				}
 			});
 		});
 		createButton.addEventListener('click', ()=> {
 			let data = this.createConditions();
-			let now = DateTimeUtils.toYMDHMS(new Date());
+			let now = DateTimeUtils.format('yyMMdd-HHmmss');
 			let filename = 'persons' + now + '.csv.gz';
 
 			console.log('create!!');
@@ -48,7 +46,7 @@ console.log('Persons.');
 			placeholder: 'ui-state-highlight',
 			update: () => {this.refreshSortableList()},
 	    });
-		$('#disuseList').listview('refresh');
+		$(this.disuseList).listview('refresh');
 		sortableList.listview('refresh');
 	}
 
@@ -59,8 +57,21 @@ console.log('Persons.');
 	createConditions() {
 		let form = document.getElementById('personsForm');
 		let numberOfPersons = form.querySelector('[name=numberOfPersons]').value;
-		let data = {numberOfPersons: numberOfPersons};
+		let data = {choosers: [], numberOfPersons: numberOfPersons};
 
+		this.busyList.querySelectorAll('li').forEach(li => {
+			let anchor = li.querySelectorAll('a')[0];
+			let gear = li.querySelectorAll('a')[1];
+			let href = gear.getAttribute('href');
+			let name = href.substring(1);
+			let depends = gear.getAttribute('data-depends');
+			let chooser = {name: name};
+
+			if (depends) {
+				chooser.depends = depends;
+			}
+			data.choosers.push(chooser);
+		});
 		return data;
 	}
 }
