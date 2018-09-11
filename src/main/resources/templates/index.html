@@ -42,25 +42,25 @@
           <div class="ui-block-a">
             <ul data-role="listview" data-inset="true"><li data-role="list-divider">Disuse</li></ul>
             <ul id="disuseList" data-role="listview" data-inset="true" data-split-icon="gear">
-              <li><a href="#">都道府県(かな)</a><a href="#kenAll.prefKana"></a></li>
-              <li><a href="#">市区町村(かな)</a><a href="#kenAll.municKana"></a></li>
-              <li><a href="#">町域(かな)</a><a href="#kenAll.cityKana"></a></li>
-              <li><a href="#">マイナンバー</a><a href="#myNumber.text"></a></li>
-              <li><a href="#">電話番号</a><a href="#phone.text" data-depends="kenAll"></a></li>
+              <li><a href="#">都道府県(かな)<span class="ui-li-count"></span></a><a href="#kenAll.prefKana"></a></li>
+              <li><a href="#">市区町村(かな)<span class="ui-li-count"></span></a><a href="#kenAll.municKana"></a></li>
+              <li><a href="#">町域(かな)<span class="ui-li-count"></span></a><a href="#kenAll.cityKana"></a></li>
+              <li><a href="#">マイナンバー<span class="ui-li-count"></span></a><a href="#myNumber.text"></a></li>
+              <li><a href="#">電話番号<span class="ui-li-count"></span></a><a href="#phone.text" data-depends="kenAll"></a></li>
             </ul>
           </div>
           <div class="ui-block-b">
             <ul data-role="listview" data-inset="true"><li data-role="list-divider">Use</li></ul>
             <ul id="busyList" data-role="listview" data-inset="true" data-split-icon="gear" class="sortableList">
-              <li><a href="#">UUID</a><a href="#UUID.text"></a></li>
-              <li><a href="#">姓</a><a href="#familyName.kanji"></a></li>
-              <li><a href="#">名</a><a href="#firstName.kanji"></a></li>
-              <li><a href="#">姓(かな)</a><a href="#familyName.kana"></a></li>
-              <li><a href="#">名(かな)</a><a href="#firstName.kana"></a></li>
-              <li><a href="#">郵便番号</a><a href="#kenAll.zip7"></a></li>
-              <li><a href="#">都道府県</a><a href="#kenAll.pref"></a></li>
-              <li><a href="#">市区町村</a><a href="#kenAll.munic"></a></li>
-              <li><a href="#">町域</a><a href="#kenAll.city"></a></li>
+              <li><a href="#">UUID<span class="ui-li-count"></span></a><a href="#UUID.text"></a></li>
+              <li><a href="#">姓<span class="ui-li-count"></span></a><a href="#familyName.kanji"></a></li>
+              <li><a href="#">名<span class="ui-li-count"></span></a><a href="#firstName.kanji"></a></li>
+              <li><a href="#">姓(かな)<span class="ui-li-count"></span></a><a href="#familyName.kana"></a></li>
+              <li><a href="#">名(かな)<span class="ui-li-count"></span></a><a href="#firstName.kana"></a></li>
+              <li><a href="#">郵便番号<span class="ui-li-count"></span></a><a href="#kenAll.zip7"></a></li>
+              <li><a href="#">都道府県<span class="ui-li-count"></span></a><a href="#kenAll.pref" data-separator=""></a></li>
+              <li><a href="#">市区町村<span class="ui-li-count"></span></a><a href="#kenAll.munic"></a></li>
+              <li><a href="#">町域<span class="ui-li-count"></span></a><a href="#kenAll.city"></a></li>
             </ul>
           </div>
         </fieldset>
@@ -68,7 +68,15 @@
           <div class="ui-block-a"></div>
           <div class="ui-block-b">
             <div class="ui-field-contain">
-              <label>Number:</label>
+              <label>Separator:</label>
+              <select name="separator" data-mini="true">
+                <option value=",">Comma</option>
+                <option value="&#009;">TAB</option>
+                <option value=";">Semicolon</option>
+              </select>
+            </div>
+            <div class="ui-field-contain">
+              <label>Linage:</label>
               <input name="numberOfPersons" pattern="[0-9]*" value="10000" min="0" max="100000"
                   type="number" class="numeric"/>
             </div>
@@ -77,14 +85,60 @@
         <button type="button" class="create">Create</button>
       </form>
     </div>
-    <div id="uuid.text" data-role="panel" data-display="overlay" data-position="right">
-      <div class="ui-body ui-body-a ui-corner-all">'UUID'設定</div>
+    <div id="UUID.text" data-role="panel" data-display="overlay" data-position="left">
+      <form>
+        <label for="uuid.hyphen">ハイフン:</label>
+        <input id="uuid.hyphen" type="checkbox" data-role="flipswitch" value="1" checked="checked"/>
+      </form>
     </div>
-    <div id="familyName.kanji" data-role="panel" data-display="overlay" data-position="right">
-      <div class="ui-body ui-body-a ui-corner-all">'姓'設定</div>
+    <div id="familyName.kanji" data-role="panel" data-display="overlay" data-position="left">
+      <form></form>
     </div>
-    <div id="firstName.kanji" data-role="panel" data-display="overlay" data-position="right">
-      <div class="ui-body ui-body-a ui-corner-all">'名'設定</div>
+    <div id="firstName.kanji" data-role="panel" data-display="overlay" data-position="left">
+      <form></form>
+    </div>
+    <div id="familyName.kana" data-role="panel" data-display="overlay" data-position="left">
+      <form></form>
+    </div>
+    <div id="firstName.kana" data-role="panel" data-display="overlay" data-position="left">
+      <form></form>
+    </div>
+    <div id="kenAll.zip7" data-role="panel" data-display="overlay" data-position="left">
+      <form></form>
+    </div>
+    <div id="kenAll.pref" data-role="panel" data-display="overlay" data-position="left">
+      <form></form>
+    </div>
+    <div id="kenAll.munic" data-role="panel" data-display="overlay" data-position="left">
+      <form></form>
+    </div>
+    <div id="kenAll.city" data-role="panel" data-display="overlay" data-position="left">
+      <form></form>
+    </div>
+    <div id="kenAll.prefKana" data-role="panel" data-display="overlay" data-position="left">
+      <form></form>
+    </div>
+    <div id="kenAll.municKana" data-role="panel" data-display="overlay" data-position="left">
+      <form></form>
+    </div>
+    <div id="kenAll.cityKana" data-role="panel" data-display="overlay" data-position="left">
+      <form></form>
+    </div>
+    <div id="myNumber.text" data-role="panel" data-display="overlay" data-position="left">
+      <form></form>
+    </div>
+    <div id="phone.text" data-role="panel" data-display="overlay" data-position="left">
+      <form></form>
+    </div>
+    <div id="template" data-role="panel">
+      <form>
+        <fieldset data-role="controlgroup" data-type="horizontal" data-mini="true">
+          <legend>セパレーター:</legend>
+          <label for="t1">あり</label><input id="t1" name="separator" value="1" checked="checked" type="radio">
+          <input id="t2" name="separator" value=" " type="radio"><label for="t2">スペース</label>
+          <input id="t3" name="separator" value="" type="radio"><label for="t3">なし</label>
+        </fieldset>
+      </form>
     </div>
   </div>
 </body>

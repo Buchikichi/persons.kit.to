@@ -1,6 +1,83 @@
 document.addEventListener('DOMContentLoaded', ()=> {
 	new Persons();
 });
+
+class Chooser {
+	constructor(parent, li) {
+		this.parent = parent;
+		this.li = li;
+		this.gear = li.querySelectorAll('a')[1];
+		this.span = li.querySelector('span');
+		this.href = this.gear.getAttribute('href').substr(1);
+		this.panel = document.getElementById(this.href);
+	}
+
+	initialize() {
+		let anchor = this.li.querySelectorAll('a')[0];
+		let name = anchor.firstChild.textContent;
+		// <div class="ui-body ui-body-b ui-corner-all title">'UUID'設定</div>
+		let first = this.panel.querySelector('form');
+		let title = document.createElement('div');
+
+		title.textContent = name;
+		['title', 'ui-body', 'ui-body-b', 'ui-corner-all'].forEach(c => title.classList.add(c));
+		this.panel.insertBefore(title, this.panel.firstChild);
+		// separator
+		let template = document.getElementById('template').querySelector('fieldset');
+		let fieldset = template.cloneNode(true);
+
+		fieldset.querySelectorAll('label').forEach((label, ix) => {
+			let id = name + ix;
+			let input = label.nextSibling;
+
+			label.setAttribute('for', id);
+			input.id = id;
+			input.setAttribute('name', this.panel.id + '.separator');
+		});
+		first.appendChild(fieldset);
+		$(fieldset).controlgroup();
+		$(this.panel).panel({
+			close: (e, ui) => {
+				this.setupDisplay();
+			}
+		});
+	}
+
+	setupDisplay() {
+		if (this.li.parentNode.id == 'disuseList') {
+			this.gear.classList.add('ui-state-disabled');
+			this.span.style.display = 'none';
+			return;
+		}
+		let val = this.separator;
+		let sep = this.parent.separator == '\x09' ? 'TAB' : this.parent.separator;
+
+		this.gear.classList.remove('ui-state-disabled');
+		this.span.style.display = val === '' ? 'none' : 'inline';
+		this.span.textContent = val == 1 ? sep : ' ';
+	}
+
+	get separator() {
+		return this.panel.querySelector('[name$=separator]:checked').value;
+	}
+
+	get data() {
+		let val = this.separator;
+		let depends = this.gear.getAttribute('data-depends');
+		let data = {
+			name: this.href,
+			separator: val == 1 ? this.parent.separator : val,
+		};
+		if (depends) {
+			data.depends = depends;
+		}
+		return data;
+	}
+}
+
+/**
+ * Persons.
+ */
 class Persons {
 	constructor() {
 		this.persons = new PersonsController();
@@ -12,14 +89,11 @@ console.log('Persons.');
 
 	setupEvents() {
 		let createButton = document.querySelector('button.create');
+		let separator = document.querySelector('[name=separator]');
 
-		this.setupSortableList();
-		$('#disuseList li, #busyList li').each((ix, li) => {
-			let anchor = li.querySelectorAll('a')[0];
-			let gear = li.querySelectorAll('a')[1];
-			let selector = '#' + gear.getAttribute('href');
+		document.querySelectorAll('#disuseList li, #busyList li').forEach(li => {
+			let chooser = new Chooser(this, li);
 
-			console.log(selector);
 			li.addEventListener('dblclick', ()=> {
 				if (li.parentNode.id == 'busyList') {
 					this.disuseList.appendChild(li);
@@ -28,15 +102,21 @@ console.log('Persons.');
 				}
 				this.refreshSortableList();
 			});
+			chooser.initialize();
+		});
+		separator.addEventListener('change', ()=> {
+			this.refreshSortableList();
 		});
 		createButton.addEventListener('click', ()=> {
 			let data = this.createConditions();
 			let now = DateTimeUtils.format('yyMMdd-HHmmss');
 			let filename = 'persons' + now + '.csv.gz';
 
-			console.log('create!!');
+			console.log('create:' + filename);
 			this.persons.create(filename, data);
 		});
+		this.setupSortableList();
+		this.refreshSortableList();
 	}
 
 	setupSortableList() {
@@ -51,6 +131,9 @@ console.log('Persons.');
 	}
 
 	refreshSortableList() {
+		document.querySelectorAll('#disuseList li, #busyList li').forEach(li => {
+			new Chooser(this, li).setupDisplay();
+		});
 		this.setupSortableList();
 	}
 
@@ -60,18 +143,14 @@ console.log('Persons.');
 		let data = {choosers: [], numberOfPersons: numberOfPersons};
 
 		this.busyList.querySelectorAll('li').forEach(li => {
-			let anchor = li.querySelectorAll('a')[0];
-			let gear = li.querySelectorAll('a')[1];
-			let href = gear.getAttribute('href');
-			let name = href.substring(1);
-			let depends = gear.getAttribute('data-depends');
-			let chooser = {name: name};
+			let chooser = new Chooser(this, li);
 
-			if (depends) {
-				chooser.depends = depends;
-			}
-			data.choosers.push(chooser);
+			data.choosers.push(chooser.data);
 		});
 		return data;
+	}
+
+	get separator() {
+		return document.querySelector('[name=separator]').value;
 	}
 }

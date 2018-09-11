@@ -56,7 +56,7 @@ public class PersonsService {
 	}
 
 	private String makeRecord(PersonsCriteria criteria) {
-		List<String> csv = new ArrayList<>();
+		StringBuilder buff = new StringBuilder();
 		Map<String, Object> objectMap = new HashMap<>();
 
 		for (ChooserOption option : criteria.getChoosers()) {
@@ -73,12 +73,13 @@ public class PersonsService {
 			try {
 				Object value = method.invoke(obj);
 
-				csv.add(String.valueOf(value));
+				buff.append(String.valueOf(value));
+				buff.append(option.getSeparator());
 			} catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {
 				e.printStackTrace();
 			}
 		}
-		return String.join(",", csv);
+		return buff.toString();
 	}
 
 	/**
