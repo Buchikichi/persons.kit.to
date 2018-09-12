@@ -7,7 +7,7 @@ import to.kit.data.service.PersonsCriteria;
 public class PersonsForm {
 	private static final int MAX_PERSONS = 1000000;
 	private List<ChooserOption> choosers;
-	private String prefectures;
+	private String[] prefectures;
 	private int numberOfPersons;
 
 	public List<ChooserOption> getChoosers() {
@@ -16,10 +16,10 @@ public class PersonsForm {
 	public void setChoosers(List<ChooserOption> choosers) {
 		this.choosers = choosers;
 	}
-	public String getPrefectures() {
+	public String[] getPrefectures() {
 		return this.prefectures;
 	}
-	public void setPrefectures(String prefectures) {
+	public void setPrefectures(String[] prefectures) {
 		this.prefectures = prefectures;
 	}
 	public int getNumberOfPersons() {

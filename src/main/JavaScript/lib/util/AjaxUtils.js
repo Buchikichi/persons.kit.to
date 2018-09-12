@@ -16,9 +16,13 @@ class AjaxUtils {
 
 			client.open('post', input);
 			client.withCredentials = true;
-			client.addEventListener('loadend', ()=> {
+			client.responseType= 'blob';
+			client.addEventListener('loadend', response => {
 				if (200 <= client.status && client.status < 300) {
-					resolve(JSON.parse(client.response));
+					let contentType = client.getResponseHeader('Content-Type');
+					let blob = new Blob([client.response], {type: contentType});
+
+					resolve({blob: ()=>blob});
 					return;
 				}
 				reject(client);

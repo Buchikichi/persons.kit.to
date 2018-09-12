@@ -6,7 +6,7 @@ import to.kit.data.web.form.ChooserOption;
 
 public class PersonsCriteria {
 	private List<ChooserOption> choosers;
-	private String prefectures;
+	private String[] prefectures;
 	private int numberOfPersons;
 
 	public List<ChooserOption> getChoosers() {
@@ -15,10 +15,10 @@ public class PersonsCriteria {
 	public void setChoosers(List<ChooserOption> choosers) {
 		this.choosers = choosers;
 	}
-	public String getPrefectures() {
+	public String[] getPrefectures() {
 		return this.prefectures;
 	}
-	public void setPrefectures(String prefectures) {
+	public void setPrefectures(String[] prefectures) {
 		this.prefectures = prefectures;
 	}
 	public int getNumberOfPersons() {

@@ -70,6 +70,12 @@ class ControllerBase {
 		}).then(blob => {
 console.log('done:');
 console.log(blob);
+			if (window.navigator.msSaveBlob) {
+				// IE
+console.log('IE:');
+				window.navigator.msSaveBlob(blob, filename); 
+				return;
+			}
 			let downloadUrl  = (window.URL || window.webkitURL).createObjectURL(blob);
 			let anchor = document.createElement('a');
 

@@ -25,15 +25,21 @@ class Chooser {
 		// separator
 		let template = document.getElementById('template').querySelector('fieldset');
 		let fieldset = template.cloneNode(true);
+		let inputName = this.panel.id + '.separator';
+		let defaultSeparator = this.gear.getAttribute('data-separator');
+		let labels = fieldset.querySelectorAll('label');
 
-		fieldset.querySelectorAll('label').forEach((label, ix) => {
+		Array.from(labels, (label, ix) => {
 			let id = name + ix;
 			let input = label.nextSibling;
 
 			label.setAttribute('for', id);
 			input.id = id;
-			input.setAttribute('name', this.panel.id + '.separator');
+			input.setAttribute('name', inputName);
 		});
+		if (defaultSeparator != null) {
+			$(fieldset).find('input').val(defaultSeparator);
+		}
 		first.appendChild(fieldset);
 		$(fieldset).controlgroup();
 		$(this.panel).panel({
@@ -90,8 +96,9 @@ console.log('Persons.');
 	setupEvents() {
 		let createButton = document.querySelector('button.create');
 		let separator = document.querySelector('[name=separator]');
+		let listItems = document.querySelectorAll('#disuseList li, #busyList li');
 
-		document.querySelectorAll('#disuseList li, #busyList li').forEach(li => {
+		Array.from(listItems, li => {
 			let chooser = new Chooser(this, li);
 
 			li.addEventListener('dblclick', ()=> {
@@ -131,19 +138,21 @@ console.log('Persons.');
 	}
 
 	refreshSortableList() {
-		document.querySelectorAll('#disuseList li, #busyList li').forEach(li => {
+		let listItems = document.querySelectorAll('#disuseList li, #busyList li')
+
+		Array.from(listItems, li => {
 			new Chooser(this, li).setupDisplay();
 		});
 		this.setupSortableList();
 	}
 
 	createConditions() {
-		let form = document.getElementById('personsForm');
-		let prefectures = $('[name=prefectures]').val().join();
-		let numberOfPersons = form.querySelector('[name=numberOfPersons]').value;
+		let prefectures = $('[name=prefectures]').val();
+		let numberOfPersons = document.querySelector('[name=numberOfPersons]').value;
 		let data = {choosers: [], prefectures: prefectures, numberOfPersons: numberOfPersons};
+		let listItems = this.busyList.querySelectorAll('li');
 
-		this.busyList.querySelectorAll('li').forEach(li => {
+		Array.from(listItems, li => {
 			let chooser = new Chooser(this, li);
 
 			data.choosers.push(chooser.data);

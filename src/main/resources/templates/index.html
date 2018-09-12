@@ -6,6 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
 <base href="./" th:href="@{/}"/>
 <title>Persons</title>
+<link rel="icon" href="img/icon.png"/>
 <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css"/>
 <link rel="stylesheet" href="https://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.css"/>
 <script type="text/javascript" src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
@@ -35,15 +36,16 @@
   <div data-role="page">
     <div data-role="header" data-theme="a" data-position="fixed">
       <h1>Persons</h1>
+      <a href="#option" class="ui-btn-right ui-btn ui-btn-inline ui-mini ui-corner-all ui-btn-icon-right ui-icon-gear">Options</a>
     </div>
     <div data-role="content">
       <form id="personsForm">
-        <fieldset class="ui-grid-a">
+        <div class="ui-grid-a">
           <div class="ui-block-a">
             <ul data-role="listview" data-inset="true"><li data-role="list-divider">Disuse</li></ul>
             <ul id="disuseList" data-role="listview" data-inset="true" data-split-icon="gear">
-              <li><a href="#">都道府県(かな)<span class="ui-li-count"></span></a><a href="#kenAll.prefKana"></a></li>
-              <li><a href="#">市区町村(かな)<span class="ui-li-count"></span></a><a href="#kenAll.municKana"></a></li>
+              <li><a href="#">都道府県(かな)<span class="ui-li-count"></span></a><a href="#kenAll.prefKana" data-separator=""></a></li>
+              <li><a href="#">市区町村(かな)<span class="ui-li-count"></span></a><a href="#kenAll.municKana" data-separator=""></a></li>
               <li><a href="#">町域(かな)<span class="ui-li-count"></span></a><a href="#kenAll.cityKana"></a></li>
               <li><a href="#">マイナンバー<span class="ui-li-count"></span></a><a href="#myNumber.text"></a></li>
               <li><a href="#">電話番号<span class="ui-li-count"></span></a><a href="#phone.text" data-depends="kenAll"></a></li>
@@ -53,9 +55,9 @@
             <ul data-role="listview" data-inset="true"><li data-role="list-divider">Use</li></ul>
             <ul id="busyList" data-role="listview" data-inset="true" data-split-icon="gear" class="sortableList">
               <li><a href="#">UUID<span class="ui-li-count"></span></a><a href="#UUID.text"></a></li>
-              <li><a href="#">姓<span class="ui-li-count"></span></a><a href="#familyName.kanji" data-separator=""></a></li>
+              <li><a href="#">姓<span class="ui-li-count"></span></a><a href="#familyName.kanji" data-separator=" "></a></li>
               <li><a href="#">名<span class="ui-li-count"></span></a><a href="#firstName.kanji"></a></li>
-              <li><a href="#">姓(かな)<span class="ui-li-count"></span></a><a href="#familyName.kana" data-separator=""></a></li>
+              <li><a href="#">姓(かな)<span class="ui-li-count"></span></a><a href="#familyName.kana" data-separator=" "></a></li>
               <li><a href="#">名(かな)<span class="ui-li-count"></span></a><a href="#firstName.kana"></a></li>
               <li><a href="#">郵便番号<span class="ui-li-count"></span></a><a href="#kenAll.zip7"></a></li>
               <li><a href="#">都道府県<span class="ui-li-count"></span></a><a href="#kenAll.pref"></a></li>
@@ -63,123 +65,116 @@
               <li><a href="#">町域<span class="ui-li-count"></span></a><a href="#kenAll.city"></a></li>
             </ul>
           </div>
-        </fieldset>
-        <div class="ui-grid-a">
-          <div class="ui-block-a"></div>
-          <div class="ui-block-b">
-            <div class="ui-field-contain">
-              <label>Prefecture:</label>
-              <select name="prefectures" multiple="multiple" data-native-menu="false" data-mini="true">
-                <option value="01">北海道</option>
-                <option value="02">青森県</option>
-                <option value="03">岩手県</option>
-                <option value="04">宮城県</option>
-                <option value="05">秋田県</option>
-                <option value="06">山形県</option>
-                <option value="07">福島県</option>
-                <option value="08">茨城県</option>
-                <option value="09">栃木県</option>
-                <option value="10">群馬県</option>
-                <option value="11">埼玉県</option>
-                <option value="12">千葉県</option>
-                <option value="13">東京都</option>
-                <option value="14">神奈川県</option>
-                <option value="15">新潟県</option>
-                <option value="16">富山県</option>
-                <option value="17">石川県</option>
-                <option value="18">福井県</option>
-                <option value="19">山梨県</option>
-                <option value="20">長野県</option>
-                <option value="21">岐阜県</option>
-                <option value="22">静岡県</option>
-                <option value="23">愛知県</option>
-                <option value="24">三重県</option>
-                <option value="25">滋賀県</option>
-                <option value="26">京都府</option>
-                <option value="27">大阪府</option>
-                <option value="28">兵庫県</option>
-                <option value="29">奈良県</option>
-                <option value="30">和歌山県</option>
-                <option value="31">鳥取県</option>
-                <option value="32">島根県</option>
-                <option value="33">岡山県</option>
-                <option value="34">広島県</option>
-                <option value="35">山口県</option>
-                <option value="36">徳島県</option>
-                <option value="37">香川県</option>
-                <option value="38">愛媛県</option>
-                <option value="39">高知県</option>
-                <option value="40">福岡県</option>
-                <option value="41">佐賀県</option>
-                <option value="42">長崎県</option>
-                <option value="43">熊本県</option>
-                <option value="44">大分県</option>
-                <option value="45">宮崎県</option>
-                <option value="46">鹿児島県</option>
-                <option value="47">沖縄県</option>
-              </select>
-            </div>
-            <div class="ui-field-contain">
-              <label>Separator:</label>
-              <select name="separator" data-mini="true">
-                <option value=",">Comma</option>
-                <option value="&#009;">Tab</option>
-                <option value=";">Semicolon</option>
-              </select>
-            </div>
-            <div class="ui-field-contain">
-              <label>Linage:</label>
-              <input name="numberOfPersons" pattern="[0-9]*" value="10000" min="0" max="100000"
-                  type="number" class="numeric"/>
-            </div>
-          </div>
         </div>
         <button type="button" class="create">Create</button>
       </form>
     </div>
-    <div id="UUID.text" data-role="panel" data-display="overlay" data-position="left">
+    <div id="option" data-role="panel" data-display="overlay" data-position="right">
+      <form>
+        <label>Prefecture:</label>
+        <select name="prefectures" multiple="multiple" data-native-menu="false" data-mini="true">
+          <option value="01">北海道</option>
+          <option value="02">青森県</option>
+          <option value="03">岩手県</option>
+          <option value="04">宮城県</option>
+          <option value="05">秋田県</option>
+          <option value="06">山形県</option>
+          <option value="07">福島県</option>
+          <option value="08">茨城県</option>
+          <option value="09">栃木県</option>
+          <option value="10">群馬県</option>
+          <option value="11">埼玉県</option>
+          <option value="12">千葉県</option>
+          <option value="13">東京都</option>
+          <option value="14">神奈川県</option>
+          <option value="15">新潟県</option>
+          <option value="16">富山県</option>
+          <option value="17">石川県</option>
+          <option value="18">福井県</option>
+          <option value="19">山梨県</option>
+          <option value="20">長野県</option>
+          <option value="21">岐阜県</option>
+          <option value="22">静岡県</option>
+          <option value="23">愛知県</option>
+          <option value="24">三重県</option>
+          <option value="25">滋賀県</option>
+          <option value="26">京都府</option>
+          <option value="27">大阪府</option>
+          <option value="28">兵庫県</option>
+          <option value="29">奈良県</option>
+          <option value="30">和歌山県</option>
+          <option value="31">鳥取県</option>
+          <option value="32">島根県</option>
+          <option value="33">岡山県</option>
+          <option value="34">広島県</option>
+          <option value="35">山口県</option>
+          <option value="36">徳島県</option>
+          <option value="37">香川県</option>
+          <option value="38">愛媛県</option>
+          <option value="39">高知県</option>
+          <option value="40">福岡県</option>
+          <option value="41">佐賀県</option>
+          <option value="42">長崎県</option>
+          <option value="43">熊本県</option>
+          <option value="44">大分県</option>
+          <option value="45">宮崎県</option>
+          <option value="46">鹿児島県</option>
+          <option value="47">沖縄県</option>
+        </select>
+        <label>Separator:</label>
+        <select name="separator" data-mini="true">
+          <option value=",">Comma</option>
+          <option value="&#009;">Tab</option>
+          <option value=";">Semicolon</option>
+        </select>
+        <label>Linage:</label>
+        <input name="numberOfPersons" pattern="[0-9]*" value="10000" min="0" max="100000"
+            type="number" class="numeric"/>
+      </form>
+    </div>
+    <div id="UUID.text" data-role="panel" data-display="overlay">
       <form>
         <label for="uuid.hyphen">ハイフン:</label>
         <input id="uuid.hyphen" type="checkbox" data-role="flipswitch" value="1" checked="checked"/>
       </form>
     </div>
-    <div id="familyName.kanji" data-role="panel" data-display="overlay" data-position="left">
+    <div id="familyName.kanji" data-role="panel" data-display="overlay">
       <form></form>
     </div>
-    <div id="firstName.kanji" data-role="panel" data-display="overlay" data-position="left">
+    <div id="firstName.kanji" data-role="panel" data-display="overlay">
       <form></form>
     </div>
-    <div id="familyName.kana" data-role="panel" data-display="overlay" data-position="left">
+    <div id="familyName.kana" data-role="panel" data-display="overlay">
       <form></form>
     </div>
-    <div id="firstName.kana" data-role="panel" data-display="overlay" data-position="left">
+    <div id="firstName.kana" data-role="panel" data-display="overlay">
       <form></form>
     </div>
-    <div id="kenAll.zip7" data-role="panel" data-display="overlay" data-position="left">
+    <div id="kenAll.zip7" data-role="panel" data-display="overlay">
       <form></form>
     </div>
-    <div id="kenAll.pref" data-role="panel" data-display="overlay" data-position="left">
+    <div id="kenAll.pref" data-role="panel" data-display="overlay">
       <form></form>
     </div>
-    <div id="kenAll.munic" data-role="panel" data-display="overlay" data-position="left">
+    <div id="kenAll.munic" data-role="panel" data-display="overlay">
       <form></form>
     </div>
-    <div id="kenAll.city" data-role="panel" data-display="overlay" data-position="left">
+    <div id="kenAll.city" data-role="panel" data-display="overlay">
       <form></form>
     </div>
-    <div id="kenAll.prefKana" data-role="panel" data-display="overlay" data-position="left">
+    <div id="kenAll.prefKana" data-role="panel" data-display="overlay">
       <form></form>
     </div>
-    <div id="kenAll.municKana" data-role="panel" data-display="overlay" data-position="left">
+    <div id="kenAll.municKana" data-role="panel" data-display="overlay">
       <form></form>
     </div>
-    <div id="kenAll.cityKana" data-role="panel" data-display="overlay" data-position="left">
+    <div id="kenAll.cityKana" data-role="panel" data-display="overlay">
       <form></form>
     </div>
-    <div id="myNumber.text" data-role="panel" data-display="overlay" data-position="left">
+    <div id="myNumber.text" data-role="panel" data-display="overlay">
       <form></form>
     </div>
-    <div id="phone.text" data-role="panel" data-display="overlay" data-position="left">
+    <div id="phone.text" data-role="panel" data-display="overlay">
       <form></form>
     </div>
     <div id="template" data-role="panel">

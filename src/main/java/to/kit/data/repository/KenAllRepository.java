@@ -107,16 +107,15 @@ public class KenAllRepository extends ZipRepository implements Chooser {
 		rec.setCity(city);
 	}
 
-	private String choosePrefecture(String prefectures) {
-		if (prefectures == null || prefectures.isEmpty()) {
+	private String choosePrefecture(String[] prefectures) {
+		if (prefectures == null) {
 			int num = (int)(Math.random() * NUM_OF_PREFECTURES) + 1;
 
 			return String.format("%02d", Integer.valueOf(num));
 		}
-		String[] elements = prefectures.split("[,]");
-		int ix = (int)(Math.random() * elements.length);
+		int ix = (int)(Math.random() * prefectures.length);
 
-		return elements[ix];
+		return prefectures[ix];
 	}
 
 	@Override
