@@ -8,6 +8,8 @@ import java.lang.reflect.Method;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,6 +25,8 @@ import to.kit.data.web.form.ChooserOption;
  */
 @Service
 public class PersonsService {
+	private static final Logger LOG = LoggerFactory.getLogger(PersonsService.class);
+
 	@Autowired
 	private DefaultListableBeanFactory factory;
 
@@ -87,11 +91,13 @@ public class PersonsService {
 	 * @throws IOException 入出力例外
 	 */
 	public void createPersons(OutputStream out, PersonsCriteria criteria) throws IOException {
+		LOG.info("Request:" + criteria.getNumberOfPersons());
 		for (int cnt = 0; cnt < criteria.getNumberOfPersons(); cnt++) {
 			String line = makeRecord(criteria);
 
 			out.write(line.getBytes());
 			out.write(0x0a);
 		}
+		LOG.info("Done.");
 	}
 }

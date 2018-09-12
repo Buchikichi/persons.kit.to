@@ -62,7 +62,9 @@
               <li><a href="#">郵便番号<span class="ui-li-count"></span></a><a href="#kenAll.zip7"></a></li>
               <li><a href="#">都道府県<span class="ui-li-count"></span></a><a href="#kenAll.pref"></a></li>
               <li><a href="#">市区町村<span class="ui-li-count"></span></a><a href="#kenAll.munic"></a></li>
-              <li><a href="#">町域<span class="ui-li-count"></span></a><a href="#kenAll.city"></a></li>
+              <li><a href="#">町域<span class="ui-li-count"></span></a><a href="#kenAll.city" data-separator=""></a></li>
+              <li><a href="#">番地<span class="ui-li-count"></span></a><a href="#kenAll.street"></a></li>
+              <li><a href="#">アパート／マンション<span class="ui-li-count"></span></a><a href="#apartment.text" data-depends="kenAll" data-separator=""></a></li>
             </ul>
           </div>
         </div>
@@ -104,7 +106,7 @@
           <option value="29">奈良県</option>
           <option value="30">和歌山県</option>
           <option value="31">鳥取県</option>
-          <option value="32">島根県</option>
+          <option value="32" selected="selected">島根県</option>
           <option value="33">岡山県</option>
           <option value="34">広島県</option>
           <option value="35">山口県</option>
@@ -160,6 +162,12 @@
       <form></form>
     </div>
     <div id="kenAll.city" data-role="panel" data-display="overlay">
+      <form></form>
+    </div>
+    <div id="kenAll.street" data-role="panel" data-display="overlay">
+      <form></form>
+    </div>
+    <div id="apartment.text" data-role="panel" data-display="overlay">
       <form></form>
     </div>
     <div id="kenAll.prefKana" data-role="panel" data-display="overlay">

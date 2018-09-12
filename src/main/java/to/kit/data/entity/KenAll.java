@@ -19,6 +19,8 @@ public class KenAll {
 	private boolean someZip;
 	private String update;
 	private String reason;
+	// ext
+	private String street;
 
 	public String getX0401() {
 		return this.x0401;
@@ -115,5 +117,11 @@ public class KenAll {
 	}
 	public void setReason(String reason) {
 		this.reason = reason;
+	}
+	public String getStreet() {
+		return this.street;
+	}
+	public void setStreet(String street) {
+		this.street = street;
 	}
 }

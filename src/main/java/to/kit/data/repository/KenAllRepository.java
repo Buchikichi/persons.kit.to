@@ -31,8 +31,6 @@ public class KenAllRepository extends ZipRepository implements Chooser {
 	private Map<String, List<KenAll>> map = new HashMap<>();
 //	private UnaryOperator<String> op = NameUtils.toHiragana;
 	@Autowired
-	private ApartmentRepository apartmentRepository;
-	@Autowired
 	private NameUtils nameUtils;
 
 	private KenAll createRecord(String[] elements) {
@@ -71,7 +69,7 @@ public class KenAllRepository extends ZipRepository implements Chooser {
 			String cityKana = elements[5];
 			String city = elements[8];
 			if (cityKana.startsWith("ｲｶﾆ") || cityKana.contains("(") || cityKana.contains(")") || city.contains("（")
-					|| city.contains("）")) {
+					|| city.contains("）") || city.contains("、")) {
 				return;
 			}
 			KenAll rec = createRecord(elements);
@@ -88,23 +86,15 @@ public class KenAllRepository extends ZipRepository implements Chooser {
 
 	private void createStreet(KenAll rec) {
 		String city = rec.getCity();
-		Street street = new Street();
+		String street = "";
 
 		if (rec.isSomeChome() && !city.contains(CHOME)) {
-			String num = String.valueOf((int) (Math.random() * 5) + 1);
-			String chomeStr = this.nameUtils.toKansuuji.apply(num) + CHOME;
+			String num = String.valueOf((int) (Math.random() * 8) + 1);
 
-			city += chomeStr;
+			street += this.nameUtils.toKansuuji.apply(num) + CHOME;
 		}
-		city += street.toString();
-		if ((int) (Math.random() * 8) == 0) {
-			String apartment= this.apartmentRepository.choose(rec);
-			int floor = ((int) (Math.random() * 9) + 1) * 100;
-			int roomNum = floor + (int) (Math.random() * 30) + 1;
-
-			city += apartment + roomNum;
-		}
-		rec.setCity(city);
+		street += new Street().toString();
+		rec.setStreet(street);
 	}
 
 	private String choosePrefecture(String[] prefectures) {

@@ -8,10 +8,13 @@ import org.springframework.stereotype.Repository;
 
 import to.kit.data.entity.KanjiName;
 import to.kit.data.entity.KenAll;
+import to.kit.data.entity.OrdinaryText;
+import to.kit.data.service.PersonsCriteria;
 import to.kit.data.util.NameUtils;
+import to.kit.data.web.form.ChooserOption;
 
 @Repository
-public class ApartmentRepository extends TextRepository {
+public class ApartmentRepository extends TextRepository implements Chooser {
 	private static final String CHOME = "丁目";
 	private static final String[] KU_CHO = { "区", "町" };
 
@@ -44,7 +47,12 @@ public class ApartmentRepository extends TextRepository {
 		return this.nameUtils.toFull.apply(affix);
 	}
 
-	public String choose(KenAll kenAll) {
+	@Override
+	public OrdinaryText choose(PersonsCriteria criteria, ChooserOption option) {
+		if (0 < (int) (Math.random() * 8)) {
+			return new OrdinaryText("");
+		}
+		KenAll kenAll = (KenAll) option.getDependObject();
 		int ix = (int) (Math.random() * this.list.size());
 		String apartment = this.list.get(ix);
 
@@ -60,7 +68,11 @@ public class ApartmentRepository extends TextRepository {
 			}
 			apartment = apartment.replace("*", name);
 		}
-		return apartment;
+		int floor = ((int) (Math.random() * Math.random() * Math.random() * 20) + 1) * 100;
+		int roomNum = floor + (int) (Math.random() * Math.random() * Math.random() * 30) + 1;
+
+		apartment += this.nameUtils.toFull.apply(String.valueOf(roomNum));
+		return new OrdinaryText(apartment);
 	}
 
 	public ApartmentRepository() {
