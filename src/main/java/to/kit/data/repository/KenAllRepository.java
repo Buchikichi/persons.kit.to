@@ -1,23 +1,20 @@
 package to.kit.data.repository;
 
-import java.io.BufferedReader;
-import java.io.ByteArrayInputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.Reader;
+import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.zip.ZipEntry;
-import java.util.zip.ZipInputStream;
 
+import org.springframework.beans.BeanUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.stereotype.Repository;
-import org.springframework.util.StreamUtils;
 
 import to.kit.data.entity.KenAll;
+import to.kit.data.entity.Street;
+import to.kit.data.service.PersonsCriteria;
+import to.kit.data.util.NameUtils;
 import to.kit.data.web.form.ChooserOption;
 
 /**
@@ -26,11 +23,17 @@ import to.kit.data.web.form.ChooserOption;
  */
 @Repository
 @ConfigurationProperties(prefix = "ken-all")
-public class KenAllRepository implements Chooser {
-	private static final String KEN_ALL = "/data/ken_all.zip";
+public class KenAllRepository extends ZipRepository implements Chooser {
+	private static final String KEN_ALL = "ken_all";
+	private static final int NUM_OF_PREFECTURES = 47;
+	private static final String CHOME = "丁目";
 	private String charsetName;
 	private Map<String, List<KenAll>> map = new HashMap<>();
 //	private UnaryOperator<String> op = NameUtils.toHiragana;
+	@Autowired
+	private ApartmentRepository apartmentRepository;
+	@Autowired
+	private NameUtils nameUtils;
 
 	private KenAll createRecord(String[] elements) {
 		KenAll rec = new KenAll();
@@ -59,64 +62,74 @@ public class KenAllRepository implements Chooser {
 		return rec;
 	}
 
-	private void load(byte[] bytes) throws IOException {
-		try (InputStream in = new ByteArrayInputStream(bytes);
-				Reader isr = new InputStreamReader(in, this.charsetName);
-				BufferedReader reader = new BufferedReader(isr)) {
-			for (;;) {
-				String line = reader.readLine();
-
-				if (line == null) {
-					break;
-				}
-				String[] elements = line.replaceAll("\"", "").split(",");
-				String cityKana = elements[5];
-				String city = elements[8];
-				if (cityKana.startsWith("ｲｶﾆ") || cityKana.contains("(") || cityKana.contains(")") || city.contains("（")
-						|| city.contains("）")) {
-					continue;
-				}
-				KenAll rec = createRecord(elements);
-				String key = rec.getX0401();
-				List<KenAll> list = this.map.get(key);
-
-				if (list == null) {
-					list = new ArrayList<KenAll>();
-					this.map.put(key, list);
-				}
-				list.add(rec);
-			}
-		}
-	}
-
-	public void load() {
+	private void load() {
 		if (0 < this.map.size()) {
 			return;
 		}
-		try (InputStream in = KenAllRepository.class.getResourceAsStream(KEN_ALL);
-				ZipInputStream zip = new ZipInputStream(in)) {
-			for (;;) {
-				ZipEntry entry = zip.getNextEntry();
-
-				if (entry == null) {
-					break;
-				}
-				byte[] bytes = StreamUtils.copyToByteArray(zip);
-
-				load(bytes);
+		load(KEN_ALL, Charset.forName(this.charsetName), line -> {
+			String[] elements = line.replaceAll("\"", "").split(",");
+			String cityKana = elements[5];
+			String city = elements[8];
+			if (cityKana.startsWith("ｲｶﾆ") || cityKana.contains("(") || cityKana.contains(")") || city.contains("（")
+					|| city.contains("）")) {
+				return;
 			}
-		} catch (IOException e) {
-			e.printStackTrace();
+			KenAll rec = createRecord(elements);
+			String key = rec.getX0401();
+			List<KenAll> list = this.map.get(key);
+
+			if (list == null) {
+				list = new ArrayList<KenAll>();
+				this.map.put(key, list);
+			}
+			list.add(rec);
+		});
+	}
+
+	private void createStreet(KenAll rec) {
+		String city = rec.getCity();
+		Street street = new Street();
+
+		if (rec.isSomeChome() && !city.contains(CHOME)) {
+			String num = String.valueOf((int) (Math.random() * 5) + 1);
+			String chomeStr = this.nameUtils.toKansuuji.apply(num) + CHOME;
+
+			city += chomeStr;
 		}
+		city += street.toString();
+		if ((int) (Math.random() * 8) == 0) {
+			String apartment= this.apartmentRepository.choose(rec);
+			int floor = ((int) (Math.random() * 9) + 1) * 100;
+			int roomNum = floor + (int) (Math.random() * 30) + 1;
+
+			city += apartment + roomNum;
+		}
+		rec.setCity(city);
+	}
+
+	private String choosePrefecture(String prefectures) {
+		if (prefectures == null || prefectures.isEmpty()) {
+			int num = (int)(Math.random() * NUM_OF_PREFECTURES) + 1;
+
+			return String.format("%02d", Integer.valueOf(num));
+		}
+		String[] elements = prefectures.split("[,]");
+		int ix = (int)(Math.random() * elements.length);
+
+		return elements[ix];
 	}
 
 	@Override
-	public KenAll choose(ChooserOption option) {
+	public KenAll choose(PersonsCriteria criteria, ChooserOption option) {
 		load();
-		List<KenAll> list = this.map.get("34");
+		List<KenAll> list = this.map.get(choosePrefecture(criteria.getPrefectures()));
 		int ix = (int)(Math.random() * list.size());
+		KenAll source = list.get(ix);
+		KenAll rec = new KenAll();
 
-		return list.get(ix);
+		BeanUtils.copyProperties(source, rec);
+		createStreet(rec);
+		return rec;
 	}
 
 	/**

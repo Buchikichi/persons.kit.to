@@ -139,8 +139,9 @@ console.log('Persons.');
 
 	createConditions() {
 		let form = document.getElementById('personsForm');
+		let prefectures = $('[name=prefectures]').val().join();
 		let numberOfPersons = form.querySelector('[name=numberOfPersons]').value;
-		let data = {choosers: [], numberOfPersons: numberOfPersons};
+		let data = {choosers: [], prefectures: prefectures, numberOfPersons: numberOfPersons};
 
 		this.busyList.querySelectorAll('li').forEach(li => {
 			let chooser = new Chooser(this, li);

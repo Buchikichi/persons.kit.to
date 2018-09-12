@@ -5,9 +5,7 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.BeanUtils;
@@ -28,7 +26,8 @@ public class PersonsService {
 	@Autowired
 	private DefaultListableBeanFactory factory;
 
-	private Object choose(Map<String, Object> objectMap, String chooserName, ChooserOption option) {
+	private Object choose(Map<String, Object> objectMap, String chooserName, PersonsCriteria criteria,
+			ChooserOption option) {
 		Object obj = objectMap.get(chooserName);
 		String depends = option.getDepends();
 
@@ -37,7 +36,7 @@ public class PersonsService {
 
 			BeanUtils.copyProperties(option, opt);
 			opt.setDepends(null);
-			option.setDependObject(choose(objectMap, depends, opt));
+			option.setDependObject(choose(objectMap, depends, criteria, opt));
 		}
 		if (obj != null) {
 			return obj;
@@ -47,7 +46,7 @@ public class PersonsService {
 		try {
 			Chooser chooser = this.factory.getBean(repositoryName, Chooser.class);
 
-			obj = chooser.choose(option);
+			obj = chooser.choose(criteria, option);
 			objectMap.put(chooserName, obj);
 		} catch (BeansException | SecurityException | IllegalArgumentException e) {
 			e.printStackTrace();
@@ -63,7 +62,7 @@ public class PersonsService {
 			String[] name = option.getName().split("[.]");
 			String chooserName = name[0];
 			String propertyName = name[1];
-			Object obj = choose(objectMap, chooserName, option);
+			Object obj = choose(objectMap, chooserName, criteria, option);
 
 			if (obj == null) {
 				continue;

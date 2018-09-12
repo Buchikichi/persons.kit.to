@@ -5,6 +5,7 @@ import java.util.Arrays;
 import org.springframework.stereotype.Repository;
 
 import to.kit.data.entity.OrdinaryText;
+import to.kit.data.service.PersonsCriteria;
 import to.kit.data.web.form.ChooserOption;
 
 /**
@@ -47,7 +48,7 @@ public class MyNumberRepository implements Chooser {
 	}
 
 	@Override
-	public OrdinaryText choose(final ChooserOption option) {
+	public OrdinaryText choose(final PersonsCriteria criteria, final ChooserOption option) {
 		long hi = rack();
 		long mid = rack(hi);
 		long lo = rack(hi, mid) / 10;
