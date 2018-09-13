@@ -37,30 +37,12 @@ public class KenAllRepository extends ZipRepository implements Chooser {
 
 	private KenAll createRecord(String line) {
 		String[] elements = line.split("\t");
-		KenAll rec = new KenAll();
-		String x0402 = elements[0];
-		String x0401 = x0402.substring(0, 2);
+		KenAll rec = new KenAll(elements);
+		String x0401 = elements[0].substring(0, 2);
 		String[] pref = this.prefMap.get(x0401);
-		String prefKana = pref[0];
-		String municipalityKana = elements[4];
-		String cityKana = elements[5];
 
-		rec.setX0401(x0401);
-		rec.setX0402(x0402);
-		rec.setZip5(elements[1]);
-		rec.setZip7(elements[2]);
-		rec.setPrefKana(prefKana);
-		rec.setMunicKana(municipalityKana);
-		rec.setCityKana(cityKana);
+		rec.setPrefKana(pref[0]);
 		rec.setPref(pref[1]);
-		rec.setMunic(elements[7]);
-		rec.setCity(elements[8]);
-		rec.setSomeCity("1".equals(elements[9]));
-		rec.setSomeNumber("1".equals(elements[10]));
-		rec.setSomeChome("1".equals(elements[11]));
-		rec.setSomeZip("1".equals(elements[12]));
-		rec.setUpdate(elements[13]);
-		rec.setReason(elements[14]);
 		return rec;
 	}
 

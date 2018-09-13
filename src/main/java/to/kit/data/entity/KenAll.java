@@ -1,50 +1,24 @@
 package to.kit.data.entity;
 
 public class KenAll {
-	private String x0401;
-	private String x0402;
-	private String zip5;
-	private String zip7;
+	private String[] elements;
 	/** prefecture. */
 	private String prefKana;
-	/** municipality. */
-	private String municKana;
-	private String cityKana;
 	private String pref;
-	private String munic;
-	private String city;
-	private boolean someCity;
-	private boolean someNumber;
-	private boolean someChome;
-	private boolean someZip;
-	private String update;
-	private String reason;
 	// ext
 	private String street;
 
 	public String getX0401() {
-		return this.x0401;
-	}
-	public void setX0401(String x0401) {
-		this.x0401 = x0401;
+		return getX0402().substring(0, 2);
 	}
 	public String getX0402() {
-		return this.x0402;
-	}
-	public void setX0402(String x0402) {
-		this.x0402 = x0402;
+		return this.elements[0];
 	}
 	public String getZip5() {
-		return this.zip5;
-	}
-	public void setZip5(String zip5) {
-		this.zip5 = zip5;
+		return this.elements[1];
 	}
 	public String getZip7() {
-		return this.zip7;
-	}
-	public void setZip7(String zip7) {
-		this.zip7 = zip7;
+		return this.elements[2];
 	}
 	public String getPrefKana() {
 		return this.prefKana;
@@ -53,16 +27,10 @@ public class KenAll {
 		this.prefKana = prefKana;
 	}
 	public String getMunicKana() {
-		return this.municKana;
-	}
-	public void setMunicKana(String municKana) {
-		this.municKana = municKana;
+		return this.elements[4];
 	}
 	public String getCityKana() {
-		return this.cityKana;
-	}
-	public void setCityKana(String cityKana) {
-		this.cityKana = cityKana;
+		return this.elements[5];
 	}
 	public String getPref() {
 		return this.pref;
@@ -71,57 +39,37 @@ public class KenAll {
 		this.pref = pref;
 	}
 	public String getMunic() {
-		return this.munic;
-	}
-	public void setMunic(String munic) {
-		this.munic = munic;
+		return this.elements[7];
 	}
 	public String getCity() {
-		return this.city;
-	}
-	public void setCity(String city) {
-		this.city = city;
+		return this.elements[8];
 	}
 	public boolean isSomeCity() {
-		return this.someCity;
-	}
-	public void setSomeCity(boolean hasSomeCity) {
-		this.someCity = hasSomeCity;
+		return "1".equals(this.elements[9]);
 	}
 	public boolean isSomeNumber() {
-		return this.someNumber;
-	}
-	public void setSomeNumber(boolean hasNumber) {
-		this.someNumber = hasNumber;
+		return "1".equals(this.elements[10]);
 	}
 	public boolean isSomeChome() {
-		return this.someChome;
-	}
-	public void setSomeChome(boolean hasChome) {
-		this.someChome = hasChome;
+		return "1".equals(this.elements[11]);
 	}
 	public boolean isSomeZip() {
-		return this.someZip;
-	}
-	public void setSomeZip(boolean someZip) {
-		this.someZip = someZip;
+		return "1".equals(this.elements[12]);
 	}
 	public String getUpdate() {
-		return this.update;
-	}
-	public void setUpdate(String update) {
-		this.update = update;
+		return this.elements[13];
 	}
 	public String getReason() {
-		return this.reason;
-	}
-	public void setReason(String reason) {
-		this.reason = reason;
+		return this.elements[14];
 	}
 	public String getStreet() {
 		return this.street;
 	}
-	public void setStreet(String street) {
-		this.street = street;
+	public void setStreet(String value) {
+		this.street = value;
+	}
+
+	public KenAll(String[] elements) {
+		this.elements = elements;
 	}
 }
