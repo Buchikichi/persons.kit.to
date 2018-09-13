@@ -1,0 +1,7 @@
+# -Dspring.profiles.active=gae
+spring:
+  main:
+    banner-mode: 'off'
+#
+ken-all:
+  charsetName: MS932

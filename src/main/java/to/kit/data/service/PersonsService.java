@@ -5,6 +5,8 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.text.DecimalFormat;
+import java.text.Format;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -91,6 +93,13 @@ public class PersonsService {
 	 * @throws IOException 入出力例外
 	 */
 	public void createPersons(OutputStream out, PersonsCriteria criteria) throws IOException {
+		Runtime runtime = Runtime.getRuntime();
+		Format fmt = new DecimalFormat();
+		String free = fmt.format(Long.valueOf(runtime.freeMemory()));
+		String total = fmt.format(Long.valueOf(runtime.totalMemory()));
+		String max = fmt.format(Long.valueOf(runtime.maxMemory()));
+
+		LOG.info("free:{}/total:{}/max:{}", free, total, max);
 		LOG.info("Request:" + criteria.getNumberOfPersons());
 		for (int cnt = 0; cnt < criteria.getNumberOfPersons(); cnt++) {
 			String line = makeRecord(criteria);

@@ -12,7 +12,7 @@ import to.kit.data.web.form.ChooserOption;
  * @author H.Sasai
  */
 public abstract class KanjiNameRepository extends TextRepository implements Chooser {
-	private List<KanjiName> list = new ArrayList<>();
+	private List<String> list = new ArrayList<>();
 
 	/**
 	 * Choose a record.
@@ -21,18 +21,18 @@ public abstract class KanjiNameRepository extends TextRepository implements Choo
 	@Override
 	public KanjiName choose(PersonsCriteria criteria, ChooserOption option) {
 		int ix = (int) (Math.random() * Math.random() * Math.random() * this.list.size());
+		String line = this.list.get(ix);
+		String[] element = line.split(",");
+		KanjiName rec = new KanjiName();
 
-		return this.list.get(ix);
+		rec.setKana(element[0]);
+		rec.setKanji(element[1]);
+		return rec;
 	}
 
 	protected KanjiNameRepository(String targetname) {
 		load(targetname, line -> {
-			String[] element = line.split(",");
-			KanjiName rec = new KanjiName();
-
-			rec.setKana(element[0]);
-			rec.setKanji(element[1]);
-			this.list.add(rec);
+			this.list.add(line);
 		});
 	}
 }

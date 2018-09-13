@@ -120,7 +120,10 @@ console.log('Persons.');
 			let filename = 'persons' + now + '.csv.gz';
 
 			console.log('create:' + filename);
-			this.persons.create(filename, data);
+			$.mobile.loading('show', {text:'Creating...', textVisible:true});
+			this.persons.create(filename, data).then(()=>{
+				$.mobile.loading('hide');
+			});
 		});
 		this.setupSortableList();
 		this.refreshSortableList();

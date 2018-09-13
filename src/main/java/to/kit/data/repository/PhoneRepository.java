@@ -1,8 +1,6 @@
 package to.kit.data.repository;
 
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import org.springframework.stereotype.Repository;
@@ -16,7 +14,6 @@ import to.kit.data.web.form.ChooserOption;
 public class PhoneRepository extends TextRepository implements Chooser {
 	private static final String TARGET_DATA = "zipTel";
 	private Map<String, String> map = new HashMap<>();
-	private List<String> list = new ArrayList<>();
 
 	private Integer getRandomNumber() {
 		return Integer.valueOf((int) (Math.random() * 9999));
@@ -71,9 +68,6 @@ public class PhoneRepository extends TextRepository implements Chooser {
 			String tel = '0' + element[1];
 
 			this.map.put(zip, tel);
-			if (!this.list.contains(tel)) {
-				this.list.add(tel);
-			}
 		});
 	}
 }

@@ -1,6 +1,7 @@
 package to.kit.data.repository;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,7 +30,7 @@ public class ApartmentRepository extends TextRepository implements Chooser {
 	private String chooseName(KenAll kenAll) {
 		KanjiName familyName = this.familyNameRepository.choose(null, null);
 		KanjiName firstName = this.firstNameRepository.choose(null, null);
-		List<String> affixList = List.of(kenAll.getCity(), kenAll.getCityKana(), familyName.getKanji(),
+		List<String> affixList = Arrays.asList(kenAll.getCity(), kenAll.getCityKana(), familyName.getKanji(),
 				familyName.getKana(), firstName.getKanji(), firstName.getKana());
 		int ix = (int) (Math.random() * Math.random() * Math.random() * affixList.size());
 		String affix = affixList.get(ix);
