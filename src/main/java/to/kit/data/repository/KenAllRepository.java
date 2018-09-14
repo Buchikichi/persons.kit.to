@@ -13,7 +13,6 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.stereotype.Repository;
 
 import to.kit.data.entity.KenAll;
-import to.kit.data.entity.Street;
 import to.kit.data.service.PersonsCriteria;
 import to.kit.data.util.NameUtils;
 import to.kit.data.web.form.ChooserOption;
@@ -35,28 +34,21 @@ public class KenAllRepository extends ZipRepository implements Chooser {
 	@Autowired
 	private NameUtils nameUtils;
 
-	private KenAll createRecord(String line) {
-		String[] elements = line.split("\t");
-		KenAll rec = new KenAll(elements);
-		String x0401 = elements[0].substring(0, 2);
-		String[] pref = this.prefMap.get(x0401);
-
-		rec.setPrefKana(pref[0]);
-		rec.setPref(pref[1]);
-		return rec;
-	}
-
 	private void createStreet(KenAll rec) {
-		String city = rec.getCity();
-		String street = "";
+		StringBuilder street = new StringBuilder();
 
-		if (rec.isSomeChome() && !city.contains(CHOME)) {
-			String num = String.valueOf((int) (Math.random() * 8) + 1);
+		if (rec.isSomeChome() && !rec.getCity().contains(CHOME)) {
+			String num = String.valueOf((int) (Math.random() * Math.random() * 9) + 1);
 
-			street += this.nameUtils.toKansuuji.apply(num) + CHOME;
+			street.append(this.nameUtils.toKansuuji.apply(num));
+			street.append(CHOME);
 		}
-		street += new Street().toString();
-		rec.setStreet(street);
+		street.append((int) (Math.random() * 15) + 1);
+		if (0 < (int) (Math.random() * 5)) {
+			street.append('-');
+			street.append((int) (Math.random() * 30) + 1);
+		}
+		rec.setStreet(street.toString());
 	}
 
 	private String choosePrefecture(String[] prefectures) {
@@ -121,8 +113,11 @@ public class KenAllRepository extends ZipRepository implements Chooser {
 		load();
 		List<String> list = this.map.get(choosePrefecture(criteria.getPrefectures()));
 		int ix = (int)(Math.random() * list.size());
-		KenAll rec = createRecord(list.get(ix));
+		KenAll rec = new KenAll(list.get(ix).split("\t"));
+		String[] pref = this.prefMap.get(rec.getX0401());
 
+		rec.setPrefKana(pref[0]);
+		rec.setPref(pref[1]);
 		createStreet(rec);
 		return rec;
 	}

@@ -21,12 +21,9 @@ public abstract class KanjiNameRepository extends TextRepository implements Choo
 	@Override
 	public KanjiName choose(PersonsCriteria criteria, ChooserOption option) {
 		int ix = (int) (Math.random() * Math.random() * Math.random() * this.list.size());
-		String line = this.list.get(ix);
-		String[] element = line.split(",");
-		KanjiName rec = new KanjiName();
+		String[] element = this.list.get(ix).split(",");
+		KanjiName rec = new KanjiName(element);
 
-		rec.setKana(element[0]);
-		rec.setKanji(element[1]);
 		return rec;
 	}
 

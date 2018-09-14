@@ -5,31 +5,22 @@ package to.kit.data.entity;
  * @author Hidetaka Sasai
  */
 public class KanjiName {
-	private String kanji;
-	private String kana;
+	private final String[] elements;
 
-	/**
-	 * @return the kanji
-	 */
-	public String getKanji() {
-		return this.kanji;
-	}
-	/**
-	 * @param kanji the kanji to set
-	 */
-	public void setKanji(String kanji) {
-		this.kanji = kanji;
-	}
 	/**
 	 * @return the kana
 	 */
 	public String getKana() {
-		return this.kana;
+		return this.elements[0];
 	}
 	/**
-	 * @param kana the kana to set
+	 * @return the kanji
 	 */
-	public void setKana(String kana) {
-		this.kana = kana;
+	public String getKanji() {
+		return this.elements[1];
+	}
+
+	public KanjiName(final String[] elements) {
+		this.elements = elements;
 	}
 }

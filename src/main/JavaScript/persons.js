@@ -38,7 +38,7 @@ class Chooser {
 			input.setAttribute('name', inputName);
 		});
 		if (defaultSeparator != null) {
-			$(fieldset).find('input').val(defaultSeparator);
+			$(fieldset).find('input').val([defaultSeparator]);
 		}
 		first.appendChild(fieldset);
 		$(fieldset).controlgroup();

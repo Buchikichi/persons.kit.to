@@ -66,9 +66,8 @@ public class PersonsService {
 
 		for (ChooserOption option : criteria.getChoosers()) {
 			String[] name = option.getName().split("[.]");
-			String chooserName = name[0];
 			String propertyName = name[1];
-			Object obj = choose(objectMap, chooserName, criteria, option);
+			Object obj = choose(objectMap, name[0], criteria, option);
 
 			if (obj == null) {
 				continue;
