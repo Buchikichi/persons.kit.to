@@ -5,7 +5,7 @@ import java.util.List;
 import to.kit.data.service.PersonsCriteria;
 
 public class PersonsForm {
-	private static final int MAX_PERSONS = 1000000;
+	private static final int MAX_PERSONS = 100000;
 	private List<ChooserOption> choosers;
 	private String[] prefectures;
 	private int numberOfPersons;
