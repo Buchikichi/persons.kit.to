@@ -120,8 +120,10 @@ console.log('Persons.');
 			let filename = 'persons' + now + '.csv.gz';
 
 			console.log('create:' + filename);
+			$('.protectiveSheet').show();
 			$.mobile.loading('show', {text:'Creating...', textVisible:true});
 			this.persons.create(filename, data).then(()=>{
+				$('.protectiveSheet').hide();
 				$.mobile.loading('hide');
 			});
 		});
