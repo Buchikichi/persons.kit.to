@@ -6,7 +6,6 @@ import java.util.Map;
 import org.springframework.stereotype.Repository;
 
 import to.kit.data.entity.KenAll;
-import to.kit.data.entity.OrdinaryText;
 import to.kit.data.service.PersonsCriteria;
 import to.kit.data.web.form.ChooserOption;
 
@@ -54,11 +53,10 @@ public class PhoneRepository extends TextRepository implements Chooser {
 	}
 
 	@Override
-	public OrdinaryText choose(PersonsCriteria criteria, ChooserOption option) {
+	public String choose(PersonsCriteria criteria, ChooserOption option) {
 		boolean isMobile = .4 < Math.random();
-		String text = isMobile ? createMobilePhone() : createPhone(option);
 
-		return new OrdinaryText(text);
+		return isMobile ? createMobilePhone() : createPhone(option);
 	}
 
 	public PhoneRepository() {

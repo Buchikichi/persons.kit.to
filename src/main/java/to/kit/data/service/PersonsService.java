@@ -66,22 +66,22 @@ public class PersonsService {
 
 		for (ChooserOption option : criteria.getChoosers()) {
 			String[] name = option.getName().split("[.]");
-			String propertyName = name[1];
 			Object obj = choose(objectMap, name[0], criteria, option);
 
-			if (obj == null) {
-				continue;
-			}
-			PropertyDescriptor desc = BeanUtils.getPropertyDescriptor(obj.getClass(), propertyName);
-			Method method = desc.getReadMethod();
-			try {
-				Object value = method.invoke(obj);
+			if (obj instanceof String) {
+				buff.append(obj);
+			} else
+			if (obj != null) {
+				PropertyDescriptor desc = BeanUtils.getPropertyDescriptor(obj.getClass(), name[1]);
+				Method method = desc.getReadMethod();
 
-				buff.append(String.valueOf(value));
-				buff.append(option.getSeparator());
-			} catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {
-				e.printStackTrace();
+				try {
+					buff.append(method.invoke(obj));
+				} catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {
+					e.printStackTrace();
+				}
 			}
+			buff.append(option.getSeparator());
 		}
 		return buff.toString();
 	}

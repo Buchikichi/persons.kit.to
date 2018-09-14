@@ -4,7 +4,6 @@ import java.util.Arrays;
 
 import org.springframework.stereotype.Repository;
 
-import to.kit.data.entity.OrdinaryText;
 import to.kit.data.service.PersonsCriteria;
 import to.kit.data.web.form.ChooserOption;
 
@@ -48,15 +47,14 @@ public class MyNumberRepository implements Chooser {
 	}
 
 	@Override
-	public OrdinaryText choose(final PersonsCriteria criteria, final ChooserOption option) {
+	public String choose(final PersonsCriteria criteria, final ChooserOption option) {
 		long hi = rack();
 		long mid = rack(hi);
 		long lo = rack(hi, mid) / 10;
 		long full = hi * 10000000L + mid * 1000 + lo;
 		String code = String.format("%011d", Long.valueOf(full));
 		String cd = calculateCheckDigit(code);
-		String text = String.format("%04d %04d %03d%s", Long.valueOf(hi), Long.valueOf(mid), Long.valueOf(lo), cd);
 
-		return new OrdinaryText(text);
+		return String.format("%04d %04d %03d%s", Long.valueOf(hi), Long.valueOf(mid), Long.valueOf(lo), cd);
 	}
 }
