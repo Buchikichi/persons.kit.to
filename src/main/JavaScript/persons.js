@@ -117,7 +117,7 @@ console.log('Persons.');
 		createButton.addEventListener('click', ()=> {
 			let data = this.createConditions();
 			let now = DateTimeUtils.format('yyMMdd-HHmmss');
-			let filename = 'persons' + now + '.csv.gz';
+			let filename = 'persons' + now + '.zip';
 
 			console.log('create:' + filename);
 			$('.protectiveSheet').show();

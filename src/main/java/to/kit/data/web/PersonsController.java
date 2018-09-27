@@ -4,12 +4,12 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.UUID;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipOutputStream;
 
 import javax.servlet.http.HttpServletResponse;
 
-import org.apache.commons.compress.compressors.CompressorException;
-import org.apache.commons.compress.compressors.CompressorOutputStream;
-import org.apache.commons.compress.compressors.CompressorStreamFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -34,22 +34,24 @@ public class PersonsController {
 	 * @param form フォーム
 	 * @param response HTTP response
 	 * @throws IOException 入出力例外
-	 * @throws CompressorException コンプレッサー例外
 	 */
 	@RequestMapping("/create")
-	public void create(@RequestBody PersonsForm form, HttpServletResponse response) throws IOException, CompressorException {
+	public void create(@RequestBody PersonsForm form, HttpServletResponse response) throws IOException {
 		LocalDateTime now = LocalDateTime.now();
 		String dateTime = now.format(DateTimeFormatter.ofPattern("yyyyMMdd-HHmmss"));
-		String filename = String.format("persons%s.csv.gz", dateTime);
+		String filename = String.format("persons%s.zip", dateTime);
 		String attachment = String.format("attachment;filename=\"%s\"", filename);
+		String uuid = UUID.randomUUID().toString().replace("-", "");
 		PersonsCriteria criteria = form.createCriteria();
 
 		response.setHeader("Content-Type", "application/x-compress");
 		response.setHeader("Content-Disposition", attachment);
 		try (OutputStream outputStream = response.getOutputStream();
-				CompressorOutputStream out = new CompressorStreamFactory()
-						.createCompressorOutputStream(CompressorStreamFactory.GZIP, outputStream)) {
+				ZipOutputStream out = new ZipOutputStream(outputStream);) {
+			out.setComment(uuid);
+			out.putNextEntry(new ZipEntry(String.format("persons%s.csv", dateTime)));
 			this.personsService.createPersons(out, criteria);
+			out.closeEntry();
 		}
 	}
 }

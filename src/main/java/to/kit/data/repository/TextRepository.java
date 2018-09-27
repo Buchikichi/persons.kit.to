@@ -20,14 +20,7 @@ public abstract class TextRepository {
 
 	protected void load(InputStream stream, Charset cs, Consumer<String> process) {
 		try (Reader reader = new InputStreamReader(stream, cs); BufferedReader in = new BufferedReader(reader)) {
-			for (;;) {
-				String line = in.readLine();
-
-				if (line == null) {
-					break;
-				}
-				process.accept(line);
-			}
+			in.lines().forEach(process);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
