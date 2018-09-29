@@ -46,8 +46,9 @@
 <body>
   <div data-role="page">
     <div data-role="header" data-theme="a" data-position="fixed">
+      <a href="#about" class="ui-btn-left ui-btn ui-btn-inline ui-mini ui-corner-all ui-btn-icon-left ui-icon-info">About</a>
       <h1>Persons</h1>
-      <a href="#option" class="ui-btn-right ui-btn ui-btn-inline ui-mini ui-corner-all ui-btn-icon-right ui-icon-gear">Options</a>
+      <a href="#option" class="ui-btn-right ui-btn ui-btn-inline ui-mini ui-corner-all ui-btn-icon-left ui-icon-gear">Options</a>
     </div>
     <div data-role="content">
       <form id="personsForm">
@@ -82,6 +83,21 @@
         <button type="button" class="create">Create</button>
       </form>
       <div class="protectiveSheet"></div>
+    </div>
+    <div id="about" data-role="panel" data-display="overlay" data-position="left">
+      <div class="ui-bar ui-bar-a ui-corner-all">About this site.</div>
+      <div class="ui-body ui-body-a ui-corner-all">
+        <p>情報をランダムに生成するツールです。</p>
+        <p>データベースに大量のテストデータを登録したいときなど、プログラムの開発用に使用してください。</p>
+      </div>
+      <div class="ui-body ui-body-a ui-corner-all">
+        <p>各要素をダブルクリックすることで、不使用/使用を切り替え可能です。</p>
+        <p>右側の要素は、ドラッグ＆ドロップで並び替えてください。</p>
+      </div>
+      <div class="ui-body ui-body-a ui-corner-all">
+        <p>IEでは何ともありませんが、Google Chrome や Firefox では危険ファイルとみなされて、ブロックされます。</p>
+        <p>ダウンロード詳細画面で、ユーザーの許可によって有効なファイルになります。</p>
+      </div>
     </div>
     <div id="option" data-role="panel" data-display="overlay" data-position="right">
       <form>

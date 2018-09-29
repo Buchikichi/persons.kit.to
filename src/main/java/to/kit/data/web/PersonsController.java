@@ -38,13 +38,13 @@ public class PersonsController {
 	@RequestMapping("/create")
 	public void create(@RequestBody PersonsForm form, HttpServletResponse response) throws IOException {
 		LocalDateTime now = LocalDateTime.now();
-		String dateTime = now.format(DateTimeFormatter.ofPattern("yyyyMMdd-HHmmss"));
+		String dateTime = now.format(DateTimeFormatter.ofPattern("yyMMdd-HHmmss"));
 		String filename = String.format("persons%s.zip", dateTime);
 		String attachment = String.format("attachment;filename=\"%s\"", filename);
 		String uuid = UUID.randomUUID().toString().replace("-", "");
 		PersonsCriteria criteria = form.createCriteria();
 
-		response.setHeader("Content-Type", "application/x-compress");
+		response.setHeader("Content-Type", "application/octet-stream");
 		response.setHeader("Content-Disposition", attachment);
 		try (OutputStream outputStream = response.getOutputStream();
 				ZipOutputStream out = new ZipOutputStream(outputStream);) {
